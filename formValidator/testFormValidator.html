@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script src="./formValidator.js" type="module"></script>
+  <script type="module">
+    import { formValidator, addNewRule } from './formValidator.js'
+
+    // 添加新的规则
+    addNewRule({
+      level: 'prior',
+      name: 'required',
+      errorMsg: '必填但没填',
+      bhv: function (value, data) {
+        //[userValue,verifyResult]
+        if (value === true && data === undefined) return false
+        else if (value === true && data !== undefined) return true
+        else if (value === false) return true
+      },
+    })
+
+    const rulesMap = {
+      name: {
+        maxLength: 12,
+        required: true,
+      },
+      email: {
+        required: true,
+        reg: '[a-zA-Z0-9]+@[a-zA-Z0-9]+.[a-zA-Z0-9]+',
+      },
+      phone: {
+        required: true,
+        reg: '^((13[0-9])|(15[^4])|(18[0-9])|(17[0-8])|(147,145))\\d{8}$',
+      },
+    }
+
+    const data = {
+      // name: '11111111',
+      email: 'foo@bar.com',
+      phone: '15524098701',
+    }
+
+    console.log(formValidator(data, rulesMap))
+
+  </script>
+</body>
+
+</html>
